@@ -2,7 +2,7 @@ import SwiftUI
 
 @main
 struct ReadySetGoApp: App {
-    @StateObject private var viewModel = GameViewModel()
+    @State private var viewModel = GameViewModel()
 
     var body: some Scene {
         WindowGroup {
@@ -20,6 +20,3 @@ struct ReadySetGoApp: App {
         }
     }
 }
-
-// Make GamePhase conform to Equatable for animation
-extension GamePhase: Equatable {}

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct PlayerNamesView: View {
-    @ObservedObject var viewModel: GameViewModel
+    @Bindable var viewModel: GameViewModel
     @FocusState private var focusedField: Int?
 
     var body: some View {
@@ -14,26 +14,7 @@ struct PlayerNamesView: View {
             ScrollView {
                 VStack(spacing: 16) {
                     ForEach(0..<viewModel.numberOfPlayers, id: \.self) { index in
-                        HStack {
-                            Circle()
-                                .fill(Player.color(for: index))
-                                .frame(width: 24, height: 24)
-
-                            TextField("Player \(index + 1)", text: $viewModel.playerNames[index])
-                                .font(.title3)
-                                .padding()
-                                .background(Color(.systemGray6))
-                                .cornerRadius(12)
-                                .focused($focusedField, equals: index)
-                                .submitLabel(index < viewModel.numberOfPlayers - 1 ? .next : .done)
-                                .onSubmit {
-                                    if index < viewModel.numberOfPlayers - 1 {
-                                        focusedField = index + 1
-                                    } else {
-                                        focusedField = nil
-                                    }
-                                }
-                        }
+                        playerRow(at: index)
                     }
                 }
                 .padding(.horizontal)
@@ -56,6 +37,31 @@ struct PlayerNamesView: View {
         }
         .onAppear {
             focusedField = 0
+        }
+    }
+
+    // MARK: - Player Row
+
+    private func playerRow(at index: Int) -> some View {
+        HStack {
+            Circle()
+                .fill(Player.color(for: index))
+                .frame(width: 24, height: 24)
+                .accessibilityHidden(true)
+
+            TextField("Player \(index + 1)", text: $viewModel.playerNames[index])
+                .font(.title3)
+                .padding()
+                .background(.fill.tertiary, in: RoundedRectangle(cornerRadius: 12))
+                .focused($focusedField, equals: index)
+                .submitLabel(index < viewModel.numberOfPlayers - 1 ? .next : .done)
+                .onSubmit {
+                    if index < viewModel.numberOfPlayers - 1 {
+                        focusedField = index + 1
+                    } else {
+                        focusedField = nil
+                    }
+                }
         }
     }
 }
