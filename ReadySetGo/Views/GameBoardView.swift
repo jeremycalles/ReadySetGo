@@ -7,6 +7,9 @@ struct GameBoardView: View {
     @State private var showDecrementAlert = false
     @State private var playerToDecrement: Player?
 
+    private let tileCornerRadius: CGFloat = 24
+    private let tileSpacing: CGFloat = 8
+
     var body: some View {
         VStack(spacing: 0) {
             // Player buttons filling available space
@@ -14,27 +17,31 @@ struct GameBoardView: View {
                 let playerCount = viewModel.players.count
                 let columns = playerCount <= 2 ? 1 : 2
                 let rows = Int(ceil(Double(playerCount) / Double(columns)))
-                let buttonWidth = geometry.size.width / CGFloat(columns)
-                let buttonHeight = geometry.size.height / CGFloat(rows)
+                let totalHSpacing = tileSpacing * CGFloat(columns + 1)
+                let totalVSpacing = tileSpacing * CGFloat(rows + 1)
+                let buttonWidth = (geometry.size.width - totalHSpacing) / CGFloat(columns)
+                let buttonHeight = (geometry.size.height - totalVSpacing) / CGFloat(rows)
 
                 LazyVGrid(
-                    columns: Array(repeating: GridItem(.flexible(), spacing: 0), count: columns),
-                    spacing: 0
+                    columns: Array(repeating: GridItem(.flexible(), spacing: tileSpacing), count: columns),
+                    spacing: tileSpacing
                 ) {
                     ForEach(viewModel.players) { player in
                         VStack(spacing: 8) {
                             Text(player.name)
                                 .font(.system(size: 28, weight: .bold, design: .rounded))
-                                .foregroundColor(.white)
+                                .foregroundStyle(.white)
                                 .lineLimit(1)
                                 .minimumScaleFactor(0.5)
 
                             Text("\(player.score)")
                                 .font(.system(size: 48, weight: .heavy, design: .rounded))
-                                .foregroundColor(.white.opacity(0.95))
+                                .foregroundStyle(.white.opacity(0.95))
                         }
                         .frame(width: buttonWidth, height: buttonHeight)
-                        .background(player.color)
+                        .background(player.color.gradient)
+                        .clipShape(RoundedRectangle(cornerRadius: tileCornerRadius, style: .continuous))
+                        .glassEffect(.regular.interactive(), in: .rect(cornerRadius: tileCornerRadius, style: .continuous))
                         .onTapGesture {
                             viewModel.incrementScore(for: player)
                         }
@@ -44,10 +51,11 @@ struct GameBoardView: View {
                         }
                     }
                 }
+                .padding(tileSpacing)
             }
 
             // Bottom bar with reset buttons
-            HStack(spacing: 16) {
+            HStack(spacing: 12) {
                 Button {
                     showResetScoresAlert = true
                 } label: {
@@ -56,11 +64,10 @@ struct GameBoardView: View {
                         Text("Reset Scores")
                     }
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundStyle(.primary)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
-                    .background(Color.gray.opacity(0.8))
-                    .cornerRadius(12)
+                    .glassEffect(.regular.interactive(), in: .capsule)
                 }
 
                 Button {
@@ -71,18 +78,16 @@ struct GameBoardView: View {
                         Text("New Game")
                     }
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundStyle(.red)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
-                    .background(Color.red.opacity(0.8))
-                    .cornerRadius(12)
+                    .glassEffect(.regular.interactive(), in: .capsule)
                 }
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 10)
-            .background(Color(.systemBackground))
         }
-        .ignoresSafeArea(.container, edges: .top)
+        
         .alert("Reset Scores", isPresented: $showResetScoresAlert) {
             Button("Cancel", role: .cancel) {}
             Button("Reset", role: .destructive) {

@@ -45,11 +45,10 @@ struct PlayerNamesView: View {
                 Text("Start Game")
                     .font(.title2)
                     .fontWeight(.semibold)
-                    .foregroundColor(.white)
+                    .foregroundStyle(viewModel.allNamesEntered ? .primary : .tertiary)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(viewModel.allNamesEntered ? Color.green : Color.gray)
-                    .cornerRadius(16)
+                    .glassEffect(.regular.interactive(), in: .capsule)
             }
             .disabled(!viewModel.allNamesEntered)
             .padding(.horizontal, 40)

@@ -13,7 +13,7 @@ struct PlayerCountView: View {
 
             Text("How many players?")
                 .font(.title2)
-                .foregroundColor(.secondary)
+                .foregroundStyle(.secondary)
 
             HStack(spacing: 20) {
                 Button {
@@ -21,9 +21,11 @@ struct PlayerCountView: View {
                         viewModel.numberOfPlayers -= 1
                     }
                 } label: {
-                    Image(systemName: "minus.circle.fill")
-                        .font(.system(size: 44))
-                        .foregroundColor(viewModel.numberOfPlayers > viewModel.minPlayers ? .blue : .gray)
+                    Image(systemName: "minus")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundStyle(viewModel.numberOfPlayers > viewModel.minPlayers ? .primary : .tertiary)
+                        .frame(width: 56, height: 56)
+                        .glassEffect(.regular.interactive(), in: .circle)
                 }
                 .disabled(viewModel.numberOfPlayers <= viewModel.minPlayers)
 
@@ -36,9 +38,11 @@ struct PlayerCountView: View {
                         viewModel.numberOfPlayers += 1
                     }
                 } label: {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.system(size: 44))
-                        .foregroundColor(viewModel.numberOfPlayers < viewModel.maxPlayers ? .blue : .gray)
+                    Image(systemName: "plus")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundStyle(viewModel.numberOfPlayers < viewModel.maxPlayers ? .primary : .tertiary)
+                        .frame(width: 56, height: 56)
+                        .glassEffect(.regular.interactive(), in: .circle)
                 }
                 .disabled(viewModel.numberOfPlayers >= viewModel.maxPlayers)
             }
@@ -49,11 +53,10 @@ struct PlayerCountView: View {
                 Text("Next")
                     .font(.title2)
                     .fontWeight(.semibold)
-                    .foregroundColor(.white)
+                    .foregroundStyle(.primary)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.blue)
-                    .cornerRadius(16)
+                    .glassEffect(.regular.interactive(), in: .capsule)
             }
             .padding(.horizontal, 40)
 
