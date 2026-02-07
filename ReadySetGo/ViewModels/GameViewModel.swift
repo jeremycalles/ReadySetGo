@@ -1,20 +1,22 @@
 import SwiftUI
 
-enum GamePhase {
+enum GamePhase: Equatable {
     case playerCount
     case playerNames
     case playing
 }
 
-class GameViewModel: ObservableObject {
-    @Published var phase: GamePhase = .playerCount
-    @Published var numberOfPlayers: Int = 2
-    @Published var playerNames: [String] = []
-    @Published var players: [Player] = []
-    @Published var showResetConfirmation: Bool = false
+@Observable
+class GameViewModel {
+    var phase: GamePhase = .playerCount
+    var numberOfPlayers: Int = 2
+    var playerNames: [String] = []
+    var players: [Player] = []
 
     let minPlayers = 1
     let maxPlayers = 8
+
+    // MARK: - Navigation
 
     func proceedToNames() {
         playerNames = Array(repeating: "", count: numberOfPlayers)
@@ -28,21 +30,23 @@ class GameViewModel: ObservableObject {
         phase = .playing
     }
 
+    // MARK: - Validation
+
     var allNamesEntered: Bool {
         playerNames.allSatisfy { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
     }
 
+    // MARK: - Score Management
+
     func incrementScore(for player: Player) {
-        if let index = players.firstIndex(where: { $0.id == player.id }) {
-            players[index].score += 1
-        }
+        guard let index = players.firstIndex(where: { $0.id == player.id }) else { return }
+        players[index].score += 1
     }
 
     func decrementScore(for player: Player) {
-        if let index = players.firstIndex(where: { $0.id == player.id }),
-           players[index].score > 0 {
-            players[index].score -= 1
-        }
+        guard let index = players.firstIndex(where: { $0.id == player.id }),
+              players[index].score > 0 else { return }
+        players[index].score -= 1
     }
 
     func resetScores() {
@@ -50,6 +54,8 @@ class GameViewModel: ObservableObject {
             players[index].score = 0
         }
     }
+
+    // MARK: - Game Reset
 
     func resetAll() {
         players = []
