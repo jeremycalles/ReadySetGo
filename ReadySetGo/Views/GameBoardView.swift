@@ -4,6 +4,8 @@ struct GameBoardView: View {
     @ObservedObject var viewModel: GameViewModel
     @State private var showResetScoresAlert = false
     @State private var showNewGameAlert = false
+    @State private var showDecrementAlert = false
+    @State private var playerToDecrement: Player?
 
     var body: some View {
         VStack(spacing: 0) {
@@ -20,24 +22,26 @@ struct GameBoardView: View {
                     spacing: 0
                 ) {
                     ForEach(viewModel.players) { player in
-                        Button {
-                            viewModel.incrementScore(for: player)
-                        } label: {
-                            VStack(spacing: 8) {
-                                Text(player.name)
-                                    .font(.system(size: 28, weight: .bold, design: .rounded))
-                                    .foregroundColor(.white)
-                                    .lineLimit(1)
-                                    .minimumScaleFactor(0.5)
+                        VStack(spacing: 8) {
+                            Text(player.name)
+                                .font(.system(size: 28, weight: .bold, design: .rounded))
+                                .foregroundColor(.white)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.5)
 
-                                Text("\(player.score)")
-                                    .font(.system(size: 48, weight: .heavy, design: .rounded))
-                                    .foregroundColor(.white.opacity(0.95))
-                            }
-                            .frame(width: buttonWidth, height: buttonHeight)
-                            .background(player.color)
+                            Text("\(player.score)")
+                                .font(.system(size: 48, weight: .heavy, design: .rounded))
+                                .foregroundColor(.white.opacity(0.95))
                         }
-                        .buttonStyle(.plain)
+                        .frame(width: buttonWidth, height: buttonHeight)
+                        .background(player.color)
+                        .onTapGesture {
+                            viewModel.incrementScore(for: player)
+                        }
+                        .onLongPressGesture {
+                            playerToDecrement = player
+                            showDecrementAlert = true
+                        }
                     }
                 }
             }
@@ -94,6 +98,21 @@ struct GameBoardView: View {
             }
         } message: {
             Text("This will reset everything and go back to player setup.")
+        }
+        .alert("Decrease Score", isPresented: $showDecrementAlert) {
+            Button("Cancel", role: .cancel) {
+                playerToDecrement = nil
+            }
+            Button("Decrease", role: .destructive) {
+                if let player = playerToDecrement {
+                    viewModel.decrementScore(for: player)
+                }
+                playerToDecrement = nil
+            }
+        } message: {
+            if let player = playerToDecrement {
+                Text("Remove 1 point from \(player.name)?")
+            }
         }
     }
 }
