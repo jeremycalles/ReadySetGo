@@ -38,6 +38,13 @@ class GameViewModel: ObservableObject {
         }
     }
 
+    func decrementScore(for player: Player) {
+        if let index = players.firstIndex(where: { $0.id == player.id }),
+           players[index].score > 0 {
+            players[index].score -= 1
+        }
+    }
+
     func resetScores() {
         for index in players.indices {
             players[index].score = 0
