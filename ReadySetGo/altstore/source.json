@@ -12,6 +12,7 @@
       "subtitle": "Game app",
       "localizedDescription": "ReadySetGo \u2013 install and play via AltStore.",
       "category": "games",
+      "iconURL": "https://raw.githubusercontent.com/jeremycalles/ReadySetGo/main/ReadySetGo/Assets.xcassets/AppIcon.appiconset/AppIcon.png",
       "versions": [
         {
           "version": "1.0",
