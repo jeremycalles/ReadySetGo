@@ -81,7 +81,6 @@ struct GameBoardView: View {
 
     private struct GridLayout {
         let columns: Int
-        let rows: Int
         let tileWidth: CGFloat
         let tileHeight: CGFloat
     }
@@ -94,7 +93,6 @@ struct GameBoardView: View {
         let totalVSpacing = tileSpacing * CGFloat(rows + 1)
         return GridLayout(
             columns: columns,
-            rows: rows,
             tileWidth: (size.width - totalHSpacing) / CGFloat(columns),
             tileHeight: (size.height - totalVSpacing) / CGFloat(rows)
         )
