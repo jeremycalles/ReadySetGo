@@ -131,6 +131,12 @@ with open('$SOURCE_JSON', 'w') as f:
     json.dump(data, f, indent=2)
 "
 
+# If this release already exists (e.g. re-run or same version), delete it so we can replace with the new IPA
+if gh release view "$VERSION_TAG" &>/dev/null; then
+  echo "==> Release $VERSION_TAG already exists; deleting it so we can replace with the new IPA..."
+  gh release delete "$VERSION_TAG" --cleanup-tag -y
+fi
+
 echo "==> Creating GitHub release $VERSION_TAG with $IPA_NAME..."
 gh release create "$VERSION_TAG" "$IPA_PATH" \
   --title "$VERSION_TAG" \
