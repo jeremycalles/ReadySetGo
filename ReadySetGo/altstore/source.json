@@ -1,0 +1,38 @@
+{
+  "name": "ReadySetGo",
+  "identifier": "com.readysetgo.source",
+  "subtitle": "ReadySetGo app distribution",
+  "description": "Install ReadySetGo via AltStore. Hosted on GitHub \u2014 no separate server needed.",
+  "website": "https://github.com/jeremycalles/ReadySetGo",
+  "apps": [
+    {
+      "name": "ReadySetGo",
+      "bundleIdentifier": "com.readysetgo.app",
+      "developerName": "ReadySetGo",
+      "subtitle": "Game app",
+      "localizedDescription": "ReadySetGo \u2013 install and play via AltStore.",
+      "category": "games",
+      "versions": [
+        {
+          "version": "1.0",
+          "buildVersion": "1",
+          "date": "2026-02-18",
+          "localizedDescription": "Release v1.0.1",
+          "downloadURL": "https://github.com/jeremycalles/ReadySetGo/releases/download/v1.0.1/ReadySetGo-1.0.1.ipa",
+          "size": 3662359,
+          "minOSVersion": "26.0"
+        },
+        {
+          "version": "1.0",
+          "buildVersion": "1",
+          "date": "2025-02-18",
+          "localizedDescription": "Initial AltStore release.",
+          "downloadURL": "https://github.com/jeremycalles/ReadySetGo/releases/download/v1.0/ReadySetGo-1.0.ipa",
+          "size": 3662355,
+          "minOSVersion": "26.0"
+        }
+      ]
+    }
+  ],
+  "news": []
+}
