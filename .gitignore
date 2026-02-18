@@ -37,3 +37,26 @@ playground.xcworkspace
 
 # Archives
 *.xcarchive
+
+# Secrets and local config (do not commit)
+ExportOptions.plist
+build/ExportOptions.plist
+Configuration.xcconfig
+*.xcconfig
+!*.xcconfig.example
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+*.key
+id_rsa*
+credentials/
+secrets/
+*.mobileprovision
+*.provisionprofile
+**/Auth*.swift
+**/Secrets*.swift
+**/APIKeys*.swift
+*.keystore
+*.jks
