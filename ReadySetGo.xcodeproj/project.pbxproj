@@ -110,6 +110,7 @@
 				A60000010000000000000001 /* Sources */,
 				A30000010000000000000001 /* Frameworks */,
 				A60000020000000000000002 /* Resources */,
+				A60000030000000000000003 /* Set build number from git */,
 			);
 			buildRules = (
 			);
@@ -179,6 +180,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A60000030000000000000003 /* Set build number from git */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Set build number from git";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Auto-set CFBundleVersion (build number) from git commit count\nBUILD_NUMBER=$(git -C \"$SRCROOT\" rev-list --count HEAD 2>/dev/null || echo \"1\")\nPLIST=\"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME/Info.plist\"\nif [ -f \"$PLIST\" ]; then\n  /usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $BUILD_NUMBER\" \"$PLIST\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
 		A90000010000000000000001 /* Debug */ = {
