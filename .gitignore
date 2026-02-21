@@ -39,6 +39,7 @@ playground.xcworkspace
 *.xcarchive
 
 # Secrets and local config (do not commit)
+.git-secret-replace.txt
 ExportOptions.plist
 build/ExportOptions.plist
 Configuration.xcconfig
