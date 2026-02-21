@@ -107,10 +107,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A70000030000000000000003 /* Build configuration list for PBXNativeTarget "TileScore" */;
 			buildPhases = (
+				A60000040000000000000004 /* Increment build number */,
 				A60000010000000000000001 /* Sources */,
 				A30000010000000000000001 /* Frameworks */,
 				A60000020000000000000002 /* Resources */,
-				A60000030000000000000003 /* Set build number from git */,
 			);
 			buildRules = (
 			);
@@ -182,9 +182,8 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		A60000030000000000000003 /* Set build number from git */ = {
+		A60000040000000000000004 /* Increment build number */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -192,14 +191,14 @@
 			);
 			inputPaths = (
 			);
-			name = "Set build number from git";
+			name = "Increment build number";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Auto-set CFBundleVersion (build number) from git commit count\nBUILD_NUMBER=$(git -C \"$SRCROOT\" rev-list --count HEAD 2>/dev/null || echo \"1\")\nPLIST=\"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME/Info.plist\"\nif [ -f \"$PLIST\" ]; then\n  /usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $BUILD_NUMBER\" \"$PLIST\"\nfi\n";
+			shellScript = "# Increment CURRENT_PROJECT_VERSION in project.pbxproj so each build has a higher build number.\nPBXPROJ=\"${PROJECT_FILE_PATH}/project.pbxproj\"\nif [ -f \"$PBXPROJ\" ]; then\n  n=$(grep 'CURRENT_PROJECT_VERSION' \"$PBXPROJ\" | head -1 | sed 's/.*= *\\([0-9]*\\).*/\1/')\n  [ -z \"$n\" ] && n=0\n  next=$((n + 1))\n  sed -i '' \"s/CURRENT_PROJECT_VERSION = $n;/CURRENT_PROJECT_VERSION = $next;/g\" \"$PBXPROJ\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
