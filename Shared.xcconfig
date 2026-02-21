@@ -1,0 +1,3 @@
+// Shared build configuration
+// Developer-specific overrides go in Local.xcconfig (see Local.xcconfig.example)
+#include? "Local.xcconfig"
