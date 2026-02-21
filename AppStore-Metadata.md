@@ -1,6 +1,6 @@
 # App Store Metadata
 
-Use this copy in App Store Connect for **Promotional Text**, **Description**, and **Keywords**. Replace the app name placeholder with your chosen name (e.g. TileScore, TapTally, ReadySetGo).
+Use this copy in App Store Connect for **Promotional Text**, **Description**, and **Keywords**. App name: **TileScore**.
 
 ---
 
@@ -18,7 +18,7 @@ Simple scorekeeper for game night. Pick players, tap tiles to score—no account
 **Limit: 4,000 characters** • First ~255 characters appear in search results—make them count.
 
 ```
-[App Name] is a lightweight score tracker for board games, card games, and any activity where you need to keep score for multiple players. No sign-in, no ads—just tap and play.
+TileScore is a lightweight score tracker for board games, card games, and any activity where you need to keep score for multiple players. No sign-in, no ads—just tap and play.
 
 HOW IT WORKS
 

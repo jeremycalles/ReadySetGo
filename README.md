@@ -81,21 +81,34 @@ Do not commit secrets or local signing config. The repo uses **automatic signing
 ### Prerequisites
 
 - **Apple Developer Program** membership ($99/year) — [developer.apple.com/programs](https://developer.apple.com/programs/)
-- Your Apple ID added in **Xcode → Settings → Accounts**. In the project, set your **Team** under **Signing & Capabilities** (bundle ID is `com.readysetgo.app`)
+- Your Apple ID added in **Xcode → Settings → Accounts**. In the project, set your **Team** under **Signing & Capabilities** (bundle ID is `com.TileScore.app`)
 
 ### 1. Create the app in App Store Connect
 
 1. Go to [App Store Connect](https://appstoreconnect.apple.com) → **My Apps** → **+** → **New App**.
-2. Choose **iOS**, name (e.g. **ReadySetGo**), primary language, bundle ID **com.readysetgo.app** (must match the project), and SKU (e.g. `readysetgo-ios`).
+2. Choose **iOS**, name (e.g. **ReadySetGo**), primary language, bundle ID **com.TileScore.app** (must match the project), and SKU (e.g. `readysetgo-ios`).
 3. Create the app. You'll add metadata and builds in the next steps.
 
-### 2. Archive and upload from Xcode
+### 2. Archive and upload
+
+**Option A — Xcode (GUI)**
 
 1. In Xcode, select the **Any iOS Device (arm64)** destination (not a simulator).
 2. **Product → Archive**. Wait for the archive to finish.
 3. In the **Organizer** window, select the new archive and click **Distribute App**.
 4. Choose **App Store Connect** → **Upload** → follow the prompts (keep default options: automatic signing, upload symbols).
 5. After the upload completes, wait a few minutes for the build to appear in App Store Connect under the app's **TestFlight** / **App Store** tab.
+
+**Option B — Script (archive + export + optional upload)**
+
+1. Copy `scripts/ExportOptions.plist.example` to `scripts/ExportOptions.plist` and set your **teamID** (from [Apple Developer → Membership](https://developer.apple.com/account)).
+2. From the project root, run:
+   - `./scripts/archive-and-upload.sh` — archives and exports an IPA to `build/export/` (no upload).
+   - `./scripts/archive-and-upload.sh --upload` — same, then uploads to App Store Connect.
+3. For `--upload` you can either:
+   - **Interactive:** run without env vars; `altool` will prompt for Apple ID and app-specific password (create one at [appleid.apple.com](https://appleid.apple.com) → Sign-In and Security).
+   - **Non-interactive:** create an App Store Connect API key (Users and Access → API Keys), download the `.p8` file, place it as `~/.appstoreconnect/private_keys/AuthKey_<KEY_ID>.p8`, then run with:
+     - `APP_STORE_CONNECT_API_KEY_ID=<key_id> APP_STORE_CONNECT_ISSUER_ID=<issuer_id> ./scripts/archive-and-upload.sh --upload`
 
 ### 3. Complete the App Store listing
 
